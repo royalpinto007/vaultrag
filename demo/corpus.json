@@ -1,0 +1,158 @@
+{
+  "users": [
+    {
+      "id": "alice",
+      "email": "alice@corp.test",
+      "groups": [
+        "engineering"
+      ]
+    },
+    {
+      "id": "bob",
+      "email": "bob@corp.test",
+      "groups": [
+        "sales"
+      ]
+    },
+    {
+      "id": "carol",
+      "email": "carol@corp.test",
+      "groups": [
+        "hr",
+        "engineering"
+      ]
+    },
+    {
+      "id": "dave",
+      "email": "dave@corp.test",
+      "groups": []
+    },
+    {
+      "id": "erin",
+      "email": "erin@corp.test",
+      "groups": [
+        "finance",
+        "hr"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "id": "eng-onboarding",
+      "title": "Engineering Onboarding",
+      "source": "wiki",
+      "acl": [
+        "engineering"
+      ],
+      "owner": "cto@corp.test",
+      "department": "engineering",
+      "is_official": true,
+      "text": "# Getting set up\nClone the monorepo and run make bootstrap. Ask in #eng-help if it fails.\n\n# Bonus\nThe quarterly bonus payout policy for engineering is 10% of base salary, paid in the month following quarter end.\n\n# On call\nRotation is weekly. Escalate to the on-call lead after 15 minutes with no ack.\n"
+    },
+    {
+      "id": "eng-runbook",
+      "title": "Incident Runbook",
+      "source": "wiki",
+      "acl": [
+        "engineering"
+      ],
+      "owner": "sre@corp.test",
+      "department": "engineering",
+      "is_official": true,
+      "text": "# Sev1\nPage the on-call. Open an incident channel. Assign a comms lead before debugging.\n\n# Error codes\nERR_4021 means the payment provider rejected the token. Retry with a fresh token, do not retry the charge.\n\n# Rollback\nRoll back first, diagnose second. A rollback is always cheaper than a long investigation under load.\n"
+    },
+    {
+      "id": "sales-comp",
+      "title": "Sales Compensation Plan",
+      "source": "wiki",
+      "acl": [
+        "sales"
+      ],
+      "owner": "cro@corp.test",
+      "department": "sales",
+      "is_official": true,
+      "text": "# Commission\nBase plus commission at 8% of closed ARR.\n\n# Bonus\nThe quarterly bonus payout policy for sales is commission based and uncapped above quota.\n\n# Discounts\nAnything above 20% needs CRO approval.\n"
+    },
+    {
+      "id": "hr-salary-bands",
+      "title": "HR Salary Bands",
+      "source": "hr",
+      "acl": [
+        "hr"
+      ],
+      "owner": "chro@corp.test",
+      "department": "hr",
+      "is_official": true,
+      "text": "# Bands\nL3 engineers are banded 18-26 LPA. L4 is 26-40 LPA.\n\n# Bonus\nThe quarterly bonus payout policy and every individual salary band are recorded here. This document is HR only.\n\n# Reviews\nCalibration happens twice a year.\n"
+    },
+    {
+      "id": "finance-forecast",
+      "title": "Q3 Revenue Forecast",
+      "source": "drive",
+      "acl": [
+        "finance"
+      ],
+      "owner": "cfo@corp.test",
+      "department": "finance",
+      "is_official": true,
+      "text": "# Forecast\nQ3 ARR forecast is 4.2M, up 12% QoQ.\n\n# Bonus\nThe quarterly bonus payout policy has been modelled at 3% of payroll for planning purposes.\n"
+    },
+    {
+      "id": "ceo-private",
+      "title": "CEO Private Notes",
+      "source": "drive",
+      "acl": [
+        "ceo"
+      ],
+      "owner": "ceo@corp.test",
+      "is_official": false,
+      "text": "# Bonus\nThe quarterly bonus payout policy is under review and may be cut next year. Do not share.\n\n# Hiring\nConsidering a freeze in Q4.\n"
+    },
+    {
+      "id": "all-hands",
+      "title": "All Hands Notes",
+      "source": "wiki",
+      "acl": [
+        "engineering",
+        "sales",
+        "hr",
+        "finance"
+      ],
+      "owner": "chief-of-staff@corp.test",
+      "is_official": false,
+      "text": "# Agenda\nQ3 numbers, roadmap, hiring.\n\n# Bonus\nThe quarterly bonus payout policy will be discussed at the next all hands. Bring questions.\n"
+    },
+    {
+      "id": "dave-onboarding",
+      "title": "Onboarding for Dave",
+      "source": "wiki",
+      "acl": [
+        "dave"
+      ],
+      "owner": "manager@corp.test",
+      "is_official": false,
+      "text": "# Welcome\nYour manager will walk you through the quarterly bonus payout policy in week one.\n\n# Accounts\nRequest access in #it-help.\n"
+    },
+    {
+      "id": "old-handbook",
+      "title": "Employee Handbook (2019)",
+      "source": "wiki",
+      "acl": [
+        "engineering",
+        "sales",
+        "hr",
+        "finance"
+      ],
+      "owner": null,
+      "is_official": false,
+      "text": "# Bonus\nThe quarterly bonus payout policy is an annual lump sum paid every December.\n\n# Dress code\nBusiness casual.\n"
+    },
+    {
+      "id": "orphan-draft",
+      "title": "Untitled Draft",
+      "source": "drive",
+      "acl": [],
+      "text": "# Bonus\nThe quarterly bonus payout policy draft that nobody owns and nobody should see.\n"
+    }
+  ]
+}

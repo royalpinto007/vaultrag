@@ -1,0 +1,154 @@
+{
+  "cases": [
+    {
+      "id": "eng-bonus",
+      "user_id": "alice",
+      "question": "what is the quarterly bonus payout policy for engineering",
+      "expected_docs": [
+        "eng-onboarding"
+      ],
+      "forbidden_docs": [
+        "hr-salary-bands",
+        "ceo-private",
+        "sales-comp",
+        "finance-forecast",
+        "orphan-draft"
+      ],
+      "should_answer": true
+    },
+    {
+      "id": "sales-bonus",
+      "user_id": "bob",
+      "question": "what is the quarterly bonus payout policy",
+      "expected_docs": [
+        "sales-comp"
+      ],
+      "forbidden_docs": [
+        "eng-onboarding",
+        "hr-salary-bands",
+        "ceo-private",
+        "finance-forecast",
+        "orphan-draft"
+      ],
+      "should_answer": true
+    },
+    {
+      "id": "salary-bands-hr",
+      "user_id": "carol",
+      "question": "what are the L4 salary bands",
+      "expected_docs": [
+        "hr-salary-bands"
+      ],
+      "forbidden_docs": [
+        "ceo-private",
+        "sales-comp",
+        "finance-forecast",
+        "orphan-draft"
+      ],
+      "should_answer": true
+    },
+    {
+      "id": "salary-bands-eng-denied",
+      "user_id": "alice",
+      "question": "what are the L4 salary bands",
+      "expected_docs": [],
+      "forbidden_docs": [
+        "hr-salary-bands",
+        "ceo-private",
+        "orphan-draft"
+      ],
+      "should_answer": false
+    },
+    {
+      "id": "ceo-notes-denied-alice",
+      "user_id": "alice",
+      "question": "is the bonus policy under review or being cut",
+      "expected_docs": [],
+      "forbidden_docs": [
+        "ceo-private",
+        "orphan-draft"
+      ],
+      "should_answer": false
+    },
+    {
+      "id": "ceo-notes-denied-bob",
+      "user_id": "bob",
+      "question": "is there a hiring freeze planned",
+      "expected_docs": [],
+      "forbidden_docs": [
+        "ceo-private",
+        "orphan-draft"
+      ],
+      "should_answer": false
+    },
+    {
+      "id": "forecast-denied-alice",
+      "user_id": "alice",
+      "question": "what is the Q3 ARR forecast",
+      "expected_docs": [],
+      "forbidden_docs": [
+        "finance-forecast",
+        "ceo-private",
+        "orphan-draft"
+      ],
+      "should_answer": false
+    },
+    {
+      "id": "forecast-allowed-erin",
+      "user_id": "erin",
+      "question": "what is the Q3 ARR forecast",
+      "expected_docs": [
+        "finance-forecast"
+      ],
+      "forbidden_docs": [
+        "ceo-private",
+        "eng-onboarding",
+        "sales-comp",
+        "orphan-draft"
+      ],
+      "should_answer": true
+    },
+    {
+      "id": "error-code-exact",
+      "user_id": "alice",
+      "question": "what does ERR_4021 mean",
+      "expected_docs": [
+        "eng-runbook"
+      ],
+      "forbidden_docs": [
+        "ceo-private",
+        "hr-salary-bands",
+        "orphan-draft"
+      ],
+      "should_answer": true
+    },
+    {
+      "id": "dave-direct-grant",
+      "user_id": "dave",
+      "question": "who explains the bonus policy to me",
+      "expected_docs": [
+        "dave-onboarding"
+      ],
+      "forbidden_docs": [
+        "eng-onboarding",
+        "sales-comp",
+        "hr-salary-bands",
+        "ceo-private",
+        "all-hands",
+        "orphan-draft"
+      ],
+      "should_answer": true
+    },
+    {
+      "id": "orphan-never",
+      "user_id": "carol",
+      "question": "is there an untitled bonus draft",
+      "expected_docs": [],
+      "forbidden_docs": [
+        "orphan-draft",
+        "ceo-private"
+      ],
+      "should_answer": false
+    }
+  ]
+}
