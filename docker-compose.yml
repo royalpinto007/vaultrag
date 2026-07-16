@@ -1,0 +1,14 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: vaultrag
+      POSTGRES_PASSWORD: vaultrag
+      POSTGRES_DB: vaultrag
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vaultrag"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
