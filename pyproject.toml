@@ -11,6 +11,12 @@ dependencies = [
     "pydantic>=2.9",
 ]
 
+# Without this, setuptools flat-layout autodiscovery sees app/ and demo/ as two top-level
+# packages and refuses to build at all. It never fired locally because the venv was installed
+# before demo/ existed, which is exactly the class of bug a clean-clone CI run exists to catch.
+[tool.setuptools]
+packages = ["app"]
+
 [project.scripts]
 vaultrag = "app.cli:main"
 

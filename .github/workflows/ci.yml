@@ -40,12 +40,14 @@ jobs:
       - name: Tests
         run: pytest -q
 
+      # A separate database from the test one, on purpose: the suite resets its schema, and the
+      # eval needs a corpus that survives. The two sharing a database is the bug that made this
+      # eval report 0% leaks against no documents at all.
       - name: Seed the demo corpus
         env:
           DATABASE_URL: postgresql://vaultrag:vaultrag@localhost:5433/vaultrag_demo
         run: |
-          psql "postgresql://vaultrag:vaultrag@localhost:5433/vaultrag_test" -c \
-            "SELECT 'CREATE DATABASE vaultrag_demo' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname='vaultrag_demo')\gexec"
+          psql "postgresql://vaultrag:vaultrag@localhost:5433/vaultrag_test" -c "CREATE DATABASE vaultrag_demo;"
           psql "$DATABASE_URL" -c "CREATE EXTENSION IF NOT EXISTS vector;"
           vaultrag seed --file demo/corpus.json
 
