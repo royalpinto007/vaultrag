@@ -1,0 +1,64 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # The ACL is enforced in SQL, so the tests need a real Postgres with pgvector. Mocking the
+    # database would mean mocking the thing under test: the suite would pass while the query leaked.
+    services:
+      db:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: vaultrag
+          POSTGRES_PASSWORD: vaultrag
+          POSTGRES_DB: vaultrag_test
+        ports: ["5433:5432"]
+        options: >-
+          --health-cmd "pg_isready -U vaultrag"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+
+    env:
+      TEST_DATABASE_URL: postgresql://vaultrag:vaultrag@localhost:5433/vaultrag_test
+      EMBEDDER: fake
+      LLM: fake
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -e ".[dev]"
+
+      - name: Tests
+        run: pytest -q
+
+      - name: Seed the demo corpus
+        env:
+          DATABASE_URL: postgresql://vaultrag:vaultrag@localhost:5433/vaultrag_demo
+        run: |
+          psql "postgresql://vaultrag:vaultrag@localhost:5433/vaultrag_test" -c \
+            "SELECT 'CREATE DATABASE vaultrag_demo' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname='vaultrag_demo')\gexec"
+          psql "$DATABASE_URL" -c "CREATE EXTENSION IF NOT EXISTS vector;"
+          vaultrag seed --file demo/corpus.json
+
+      # The gate. A leak is not a percentage point to negotiate down, so --strict exits 1 on any
+      # leak at all and this job fails. Recall is reported alongside it because the cheapest way to
+      # get a perfect leak rate is to retrieve nothing.
+      - name: Access-control eval (fails the build on any leak)
+        env:
+          DATABASE_URL: postgresql://vaultrag:vaultrag@localhost:5433/vaultrag_demo
+        run: vaultrag eval demo/gold.json --strict --out eval-report.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-report
+          path: eval-report.json
