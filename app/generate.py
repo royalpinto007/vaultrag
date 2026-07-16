@@ -27,9 +27,21 @@ from typing import Protocol
 
 from .retrieval import Hit
 
-# Below this fused RRF score, we treat retrieval as having found nothing useful. Tuned for the
-# demo corpus; in a real deployment this is a number you set from an eval set, not a hunch.
-_WEAK_EVIDENCE = 0.02
+# Below this fused RRF score, we treat retrieval as having found nothing useful.
+#
+# This number cannot be a hunch, because RRF scores do not live on [0, 1] and have no intuitive
+# scale. A chunk found by a single arm at rank r scores 1/(k + r), so with k=60 the *best possible*
+# single-arm score is 1/61 = 0.0164. An earlier version of this file used a flat 0.02, which is
+# above that ceiling: every chunk that only one arm found was refused as weak evidence no matter
+# how perfectly it ranked. The gold set caught it (`salary-bands-hr` and `dave-direct-grant` both
+# retrieved the right document and then refused to use it).
+#
+# So derive it instead: accept evidence at least as strong as a single arm ranking it in the top
+# _WEAK_RANK. That is a claim about retrieval quality you can argue about, rather than a decimal
+# nobody can check.
+_RRF_K = 60
+_WEAK_RANK = 10
+_WEAK_EVIDENCE = 1.0 / (_RRF_K + _WEAK_RANK)
 
 
 class LLM(Protocol):
