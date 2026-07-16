@@ -17,9 +17,14 @@ from app.db import reset_schema
 from app.embeddings import FakeEmbedder
 from app.ingest import Doc, ingest
 
+# Deliberately a *different* database from the dev/demo default. These fixtures reset the schema,
+# so pointing them at the working database silently deletes whatever you seeded, and an empty
+# corpus scores a perfect 0% leak rate, which is the most convincing wrong answer this suite can
+# produce. Isolation here is a correctness requirement, not tidiness.
 DATABASE_URL = os.getenv(
-    "TEST_DATABASE_URL", "postgresql://vaultrag:vaultrag@localhost:5433/vaultrag"
+    "TEST_DATABASE_URL", "postgresql://vaultrag:vaultrag@localhost:5433/vaultrag_test"
 )
+os.environ["DATABASE_URL"] = DATABASE_URL
 
 
 @pytest.fixture(scope="session")

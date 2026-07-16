@@ -15,9 +15,11 @@ from httpx import ASGITransport, AsyncClient
 
 os.environ.setdefault("EMBEDDER", "fake")
 os.environ.setdefault("LLM", "fake")
-os.environ.setdefault(
-    "DATABASE_URL",
-    os.getenv("TEST_DATABASE_URL", "postgresql://vaultrag:vaultrag@localhost:5433/vaultrag"),
+# Assign, do not setdefault. These tests reset the schema, and a developer with DATABASE_URL
+# already exported (the normal case: it is how you run the app) would have setdefault keep their
+# working database and then watch this suite delete it. Tests choose their own database, always.
+os.environ["DATABASE_URL"] = os.getenv(
+    "TEST_DATABASE_URL", "postgresql://vaultrag:vaultrag@localhost:5433/vaultrag_test"
 )
 
 from app.db import reset_schema  # noqa: E402
