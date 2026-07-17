@@ -6,6 +6,12 @@
 
 Permission-aware RAG. **Access control is enforced inside the retrieval query, not after it.**
 
+## Demo
+
+[![vaultrag demo](assets/demo-thumb.png)](assets/demo.mp4)
+
+▶ [Watch the demo](assets/demo.mp4)
+
 ```bash
 $ vaultrag ask "what is the quarterly bonus payout policy" --user alice
 asking as alice, principals: ['user:alice', 'group:engineering']
